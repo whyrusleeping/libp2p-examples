@@ -16,6 +16,7 @@ import (
 	ma "gx/ipfs/QmcobAGsCjYt5DXoq9et9L8yR8er7o7Cu3DTvpaq12jYSz/go-multiaddr"
 )
 
+// create a 'Host' with a random peer to listen on the given address
 func makeDummyHost(listen string) (host.Host, error) {
 	addr, err := ma.NewMultiaddr(listen)
 	if err != nil {
@@ -27,7 +28,10 @@ func makeDummyHost(listen string) (host.Host, error) {
 		return nil, err
 	}
 
+	// bandwidth counter, should be optional in the future
 	bwc := metrics.NewBandwidthCounter()
+
+	// create a new swarm to be used by the service host
 	netw, err := swarm.NewNetwork(context.Background(), []ma.Multiaddr{addr}, pid, peer.NewPeerstore(), bwc)
 	if err != nil {
 		return nil, err
@@ -50,6 +54,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// Set a stream handler on host A
 	ha.SetStreamHandler("/example", func(s net.Stream) {
 		log.Println("GOT A CONNECTION!")
 		s.Write([]byte("Hello World!"))
@@ -61,11 +66,14 @@ func main() {
 		Addrs: ha.Addrs(),
 	}
 
+	// connect host B to host A
 	err = hb.Connect(context.Background(), pi)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
+	// make a new stream from host B to host A
+	// it should be handled on host A by the handler we set
 	s, err := hb.NewStream(context.Background(), "/example", ha.ID())
 	if err != nil {
 		log.Fatalln(err)
