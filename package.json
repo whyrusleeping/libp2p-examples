@@ -1,0 +1,22 @@
+{
+  "author": "whyrusleeping",
+  "bugs": {
+    "url": "https://github.com/whyrusleeping/libp2p-examples"
+  },
+  "gx": {
+    "dvcsimport": "github.com/whyrusleeping/libp2p-examples"
+  },
+  "gxDependencies": [
+    {
+      "author": "whyrusleeping",
+      "hash": "QmVL44QeoQDTYK8RVdpkyja7uYcK3WDNoBNHVLonf9YDtm",
+      "name": "go-libp2p",
+      "version": "3.2.2"
+    }
+  ],
+  "gxVersion": "0.7.0",
+  "language": "go",
+  "license": "",
+  "name": "libp2p-examples",
+  "version": "0.0.0"
+}

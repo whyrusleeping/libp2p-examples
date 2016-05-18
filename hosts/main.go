@@ -4,16 +4,16 @@ import (
 	"io/ioutil"
 	"log"
 
-	host "github.com/ipfs/go-libp2p/p2p/host"
-	bhost "github.com/ipfs/go-libp2p/p2p/host/basic"
-	metrics "github.com/ipfs/go-libp2p/p2p/metrics"
-	net "github.com/ipfs/go-libp2p/p2p/net"
-	swarm "github.com/ipfs/go-libp2p/p2p/net/swarm"
-	peer "github.com/ipfs/go-libp2p/p2p/peer"
-	testutil "github.com/ipfs/go-libp2p/testutil"
+	host "gx/ipfs/QmVL44QeoQDTYK8RVdpkyja7uYcK3WDNoBNHVLonf9YDtm/go-libp2p/p2p/host"
+	bhost "gx/ipfs/QmVL44QeoQDTYK8RVdpkyja7uYcK3WDNoBNHVLonf9YDtm/go-libp2p/p2p/host/basic"
+	metrics "gx/ipfs/QmVL44QeoQDTYK8RVdpkyja7uYcK3WDNoBNHVLonf9YDtm/go-libp2p/p2p/metrics"
+	net "gx/ipfs/QmVL44QeoQDTYK8RVdpkyja7uYcK3WDNoBNHVLonf9YDtm/go-libp2p/p2p/net"
+	swarm "gx/ipfs/QmVL44QeoQDTYK8RVdpkyja7uYcK3WDNoBNHVLonf9YDtm/go-libp2p/p2p/net/swarm"
+	testutil "gx/ipfs/QmVL44QeoQDTYK8RVdpkyja7uYcK3WDNoBNHVLonf9YDtm/go-libp2p/testutil"
+	peer "gx/ipfs/QmbyvM8zRFDkbFdYyt1MnevUMJ62SiSGbfDFZ3Z8nkrzr4/go-libp2p-peer"
 
-	context "golang.org/x/net/context"
-	ma "gx/ipfs/QmcobAGsCjYt5DXoq9et9L8yR8er7o7Cu3DTvpaq12jYSz/go-multiaddr"
+	ma "gx/ipfs/QmYzDkkgAEmrcNzFCiYo6L1dTX4EAG1gZkbtdbd9trL4vd/go-multiaddr"
+	context "gx/ipfs/QmZy2y8t9zQH2a1b8q2ZSLKp17ATuJoCNxxyMFG5qFExpt/go-net/context"
 )
 
 // create a 'Host' with a random peer to listen on the given address
