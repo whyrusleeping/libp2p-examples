@@ -6,12 +6,14 @@ import (
 	"os"
 	"time"
 
-	"gx/ipfs/QmQGwpJy9P4yXZySmqkZEXCmbBpJUb8xntCv8Ca4taZwDC/go-libp2p-peer"
-	"gx/ipfs/QmXJBB9U6e6ennAJPzk8E2rSaVGuHVR2jCxE9H9gPDtRrq/go-libp2p/p2p/metrics"
-	"gx/ipfs/QmXJBB9U6e6ennAJPzk8E2rSaVGuHVR2jCxE9H9gPDtRrq/go-libp2p/p2p/net"
-	"gx/ipfs/QmXJBB9U6e6ennAJPzk8E2rSaVGuHVR2jCxE9H9gPDtRrq/go-libp2p/p2p/net/swarm"
-	ma "gx/ipfs/QmYzDkkgAEmrcNzFCiYo6L1dTX4EAG1gZkbtdbd9trL4vd/go-multiaddr"
-	"gx/ipfs/QmZy2y8t9zQH2a1b8q2ZSLKp17ATuJoCNxxyMFG5qFExpt/go-net/context"
+	"golang.org/x/net/context"
+
+	"github.com/ipfs/go-libp2p-peer"
+	"github.com/ipfs/go-libp2p-peerstore"
+	"github.com/ipfs/go-libp2p/p2p/metrics"
+	"github.com/ipfs/go-libp2p/p2p/net"
+	"github.com/ipfs/go-libp2p/p2p/net/swarm"
+	ma "github.com/jbenet/go-multiaddr"
 )
 
 func Fatal(i interface{}) {
@@ -65,7 +67,7 @@ func main() {
 	}
 
 	// new empty peerstore
-	pstore := peer.NewPeerstore()
+	pstore := peerstore.NewPeerstore()
 	ctx := context.Background()
 
 	// construct ourselves a swarmy thingy
