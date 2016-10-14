@@ -10,8 +10,8 @@ import (
 	"golang.org/x/net/context"
 
 	util "github.com/ipfs/go-ipfs-util"
-	peer "github.com/ipfs/go-libp2p-peer"
-	peerstore "github.com/ipfs/go-libp2p-peerstore"
+	peer "github.com/libp2p/go-libp2p-peer"
+	peerstore "github.com/libp2p/go-libp2p-peerstore"
 
 	metrics "github.com/libp2p/go-libp2p-metrics"
 	inet "github.com/libp2p/go-libp2p-net"
@@ -94,7 +94,7 @@ func main() {
 	if dialAddr != nil {
 
 		// add the targets address to the peerstore
-		pstore.AddAddr(dialPeer, dialAddr, peer.PermanentAddrTTL)
+		pstore.AddAddr(dialPeer, dialAddr, peerstore.PermanentAddrTTL)
 
 		dialAndSend(s, dialPeer)
 		return
