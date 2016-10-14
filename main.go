@@ -2,23 +2,35 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"time"
 
 	"golang.org/x/net/context"
 
-	"github.com/ipfs/go-libp2p-peer"
-	"github.com/ipfs/go-libp2p-peerstore"
-	"github.com/ipfs/go-libp2p/p2p/metrics"
-	"github.com/ipfs/go-libp2p/p2p/net"
-	"github.com/ipfs/go-libp2p/p2p/net/swarm"
-	ma "github.com/jbenet/go-multiaddr"
+	util "github.com/ipfs/go-ipfs-util"
+	peer "github.com/libp2p/go-libp2p-peer"
+	peerstore "github.com/libp2p/go-libp2p-peerstore"
+
+	metrics "github.com/libp2p/go-libp2p-metrics"
+	inet "github.com/libp2p/go-libp2p-net"
+	swarm "github.com/libp2p/go-libp2p-swarm"
+	ma "github.com/multiformats/go-multiaddr"
 )
 
 func Fatal(i interface{}) {
 	fmt.Println(i)
 	os.Exit(1)
+}
+
+func randPeerID() peer.ID {
+	buf := make([]byte, 16)
+	if _, err := io.ReadFull(util.NewTimeSeededRand(), buf); err != nil {
+		return ""
+	}
+	h := util.Hash(buf)
+	return peer.ID(h)
 }
 
 func dialAndSend(s *swarm.Swarm, target peer.ID) {
@@ -35,6 +47,8 @@ func main() {
 	if len(os.Args) < 3 {
 		fmt.Println("to run a listener, specify peer id and listen port")
 		fmt.Println("to run a dialer, specify our id and port, and the target id and port")
+		randId := randPeerID()
+		fmt.Println("example peer id: ", randId.Pretty())
 		Fatal("must specify at least three args")
 	}
 
@@ -80,14 +94,14 @@ func main() {
 	if dialAddr != nil {
 
 		// add the targets address to the peerstore
-		pstore.AddAddr(dialPeer, dialAddr, peer.PermanentAddrTTL)
+		pstore.AddAddr(dialPeer, dialAddr, peerstore.PermanentAddrTTL)
 
 		dialAndSend(s, dialPeer)
 		return
 	}
 
 	// set a function to handle streams
-	s.SetStreamHandler(func(st net.Stream) {
+	s.SetStreamHandler(func(st inet.Stream) {
 		out, err := ioutil.ReadAll(st)
 		if err != nil {
 			Fatal(err)

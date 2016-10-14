@@ -3,26 +3,26 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io"
 	"io/ioutil"
 	"log"
 	"time"
 
-	pstore "github.com/ipfs/go-libp2p-peerstore"
-	host "github.com/ipfs/go-libp2p/p2p/host"
-	bhost "github.com/ipfs/go-libp2p/p2p/host/basic"
-	metrics "github.com/ipfs/go-libp2p/p2p/metrics"
-	net "github.com/ipfs/go-libp2p/p2p/net"
-	conn "github.com/ipfs/go-libp2p/p2p/net/conn"
-	swarm "github.com/ipfs/go-libp2p/p2p/net/swarm"
-	testutil "github.com/ipfs/go-libp2p/testutil"
+	host "github.com/libp2p/go-libp2p-host"
+	conn "github.com/libp2p/go-libp2p-interface-conn"
+	metrics "github.com/libp2p/go-libp2p-metrics"
+	net "github.com/libp2p/go-libp2p-net"
+	pstore "github.com/libp2p/go-libp2p-peerstore"
+	protocol "github.com/libp2p/go-libp2p-protocol"
+	swarm "github.com/libp2p/go-libp2p-swarm"
+	bhost "github.com/libp2p/go-libp2p/p2p/host/basic"
+	testutil "github.com/libp2p/go-testutil"
+	ma "github.com/multiformats/go-multiaddr"
+	ipfsaddr "github.com/shazow/go-ipfs-extracted/ipfsaddr"
 
-	ipfsaddr "github.com/ipfs/go-ipfs/thirdparty/ipfsaddr"
-	ma "github.com/jbenet/go-multiaddr"
 	context "golang.org/x/net/context"
 )
 
-var _ = io.Copy
+var protocolID = protocol.ID("/echo/1.0.0")
 
 // create a 'Host' with a random peer to listen on the given address
 func makeDummyHost(listen string) (host.Host, error) {
@@ -96,7 +96,7 @@ func main() {
 	log.Println("opening stream...")
 	// make a new stream from host B to host A
 	// it should be handled on host A by the handler we set
-	s, err := ha.NewStream(context.Background(), "/echo/1.0.0", a.ID())
+	s, err := ha.NewStream(context.Background(), a.ID(), protocolID)
 	if err != nil {
 		log.Fatalln(err)
 	}
